@@ -7,7 +7,7 @@
 % Feature detection 
 
 [points_1_res, points_2_res] = surf(I1, I2);
-
+%[points_1_res, points_2_res] = orb(I1, I2);  % nicht wundern orb braucht ewig deswegen für demo mal surf
 
 % Feature matching
 
@@ -19,7 +19,7 @@
 [f_LMedS, inliers] = ransac(matchedPoints_1, matchedPoints_2);
 
 
-% Plotten von matches
+% Plotten von bereinigten matches
 
 plot_matches(I1,I2, matchedPoints_1, matchedPoints_2, inliers);
 
