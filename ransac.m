@@ -1,7 +1,9 @@
-function [outputArg1,outputArg2] = ransac(inputArg1,inputArg2)
+function [f_LMedS, inliers] = ransac(matchedPoints_1, matchedPoints_2)
 %RANSAC Summary of this function goes here
 %   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+
+
+[f_LMedS, inliers] = estimateFundamentalMatrix(matchedPoints_1,matchedPoints_2,'Method','RANSAC','NumTrials', 2000, 'InlierPercentage', 30, 'DistanceType', 'Algebraic', 'DistanceThreshold', 0.01);
+
 end
 

@@ -1,0 +1,17 @@
+
+% Pre processing der Bilder
+
+prep;
+
+
+% Feature detection 
+
+surf(I1, I2);
+
+
+% Feature matching
+
+matching(I1,I2, points_1_res, points_2_res)
+
+
+% Ransac'en
