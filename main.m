@@ -11,7 +11,7 @@
 
 % Feature matching
 
- [matchedPoints_1, matchedPoints_2] = matching(I1,I2, points_1_res, points_2_res);
+[matchedPoints_1, matchedPoints_2] = matching(I1,I2, points_1_res, points_2_res);
 
 
 % Ransac'en
