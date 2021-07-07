@@ -22,7 +22,6 @@ KeyPoints_Pic1 = [f1(1,:);f1(2,:)];
 
 % Second image
 I2 = imread(fullfile('images','Brazilian Rainforest','2020_12.jpg'));
-I2_weida = I2;
 %I2 = imresize(I2, 0.25);
 % I2 = single(I2);
 % if size(I2,3)>1 I2 = rgb2gray(I2); end
@@ -178,5 +177,4 @@ MatchedKeyPoints_Pic2(1,i) = [x];
 MatchedKeyPoints_Pic2(2,i) = [y];
 %text(x+o,y,sprintf('%d',indices(i)), 'Color', 'r');
 end
-imageskiaa = acontario(I2_weida, KeyPoints_Pic2, MatchedKeyPoints_Pic2);
-imshow(imageskiaa)
+acontario(
