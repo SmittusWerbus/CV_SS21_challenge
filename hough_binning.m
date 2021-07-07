@@ -91,5 +91,13 @@ Inliers_2(1,i) = [x];
 Inliers_2(2,i) = [y];
 %text(x+o,y,sprintf('%d',indices(i)), 'Color', 'r');
 
+
+% transpose of Inliers to account for the syntax of proporetary matlab
+% functions
+
+
+showMatchedFeatures(I1,I2, transpose(Inliers_1), transpose(Inliers_2), 'Method', 'blend');
+
+
 end
 
