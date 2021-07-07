@@ -1,4 +1,4 @@
-function [Inliers_1, Inliers_2] = ransac(I1,I2,f1match, f2match, allX, allY, allScales, allAngs, matches)
+function [Inliers_1, Inliers_2] = ransac(I1, I2, f1match, f2match, allX, allY, allScales, allAngs, matches)
 %RANSAC Summary of this function goes here
 %   Detailed explanation goes here
 

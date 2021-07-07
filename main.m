@@ -21,7 +21,7 @@
 % Ransac'en
 
 %[f_LMedS, inliers] = ransac(matchedPoints_1, matchedPoints_2);
-[Inliers_1, Inliers_2] = ransac(f1match, f2match, allX, allY, allScales, allAngs, matches);
+[Inliers_1, Inliers_2] = ransac(I1, I2,f1match, f2match, allX, allY, allScales, allAngs, matches);
 
 
 % Plotten von bereinigten matches
