@@ -1,6 +1,6 @@
 %http://cs-courses.mines.edu/csci507/schedule/26/SIFTBasedObjectRecog.pdf
 
-I1 = imread('2012_08.jpg');
+I1 = imread(fullfile('images','Frauenkirche','2012_08.jpg'));
 %I1 = imresize(I1, 0.25);
 %imshow(I1)
 %I1 = single(I1); % Convert to single precision floating point
