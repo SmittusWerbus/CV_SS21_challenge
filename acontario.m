@@ -89,5 +89,32 @@ image_skia = imread("/Users/maxikrahschutz/Desktop/Studium/Master_EI/1.Semester/
 % hold on
 % plot(anders_x, anders_y, ".r");
 for i=1:length(anders)
-    disp("skia")
+    image_skia(1064-anders_y(i),anders_x(i),1)=255;
+    image_skia(1064-anders_y(i)+1,anders_x(i)+1,1)=255;
+    image_skia(1064-anders_y(i)-1,anders_x(i)-1,1)=255;
+    image_skia(1064-anders_y(i)+1,anders_x(i)-1,1)=255;
+    image_skia(1064-anders_y(i)-1,anders_x(i)+1,1)=255;
+    image_skia(1064-anders_y(i)+1,anders_x(i),1)=255;
+    image_skia(1064-anders_y(i)-1,anders_x(i),1)=255;
+    image_skia(1064-anders_y(i),anders_x(i)-1,1)=255;
+    image_skia(1064-anders_y(i),anders_x(i)+1,1)=255;
+    image_skia(1064-anders_y(i),anders_x(i),2)=0;
+    image_skia(1064-anders_y(i)+1,anders_x(i)+1,2)=0;
+    image_skia(1064-anders_y(i)-1,anders_x(i)-1,2)=0;
+    image_skia(1064-anders_y(i)+1,anders_x(i)-1,2)=0;
+    image_skia(1064-anders_y(i)-1,anders_x(i)+1,2)=0;
+    image_skia(1064-anders_y(i)+1,anders_x(i),2)=0;
+    image_skia(1064-anders_y(i)-1,anders_x(i),2)=0;
+    image_skia(1064-anders_y(i),anders_x(i)-1,2)=0;
+    image_skia(1064-anders_y(i),anders_x(i)+1,2)=0;
+    image_skia(1064-anders_y(i),anders_x(i),3)=0;
+    image_skia(1064-anders_y(i)+1,anders_x(i)+1,3)=0;
+    image_skia(1064-anders_y(i)-1,anders_x(i)-1,3)=0;
+    image_skia(1064-anders_y(i)+1,anders_x(i)-1,3)=0;
+    image_skia(1064-anders_y(i)-1,anders_x(i)+1,3)=0;
+    image_skia(1064-anders_y(i)+1,anders_x(i),3)=0;
+    image_skia(1064-anders_y(i)-1,anders_x(i),3)=0;
+    image_skia(1064-anders_y(i),anders_x(i)-1,3)=0;
+    image_skia(1064-anders_y(i),anders_x(i)+1,3)=0;
 end
+imshow(image_skia)
