@@ -1,6 +1,6 @@
 %http://cs-courses.mines.edu/csci507/schedule/26/SIFTBasedObjectRecog.pdf
 
-I1 = imread(fullfile('images','Frauenkirche','2012_08.jpg'));
+I1 = imread(fullfile('images','Brazilian Rainforest','1995_12.jpg'));
 %I1 = imresize(I1, 0.25);
 %imshow(I1)
 %I1 = single(I1); % Convert to single precision floating point
@@ -17,10 +17,11 @@ edge_thresh = 10; % decrease to limit; default is 10
 % Show all SIFT features detected
 % h = vl_plotframe(f1) ;
 % set(h,'color','y','linewidth',2) ;
+KeyPoints_Pic1 = [f1(1,:);f1(2,:)];
 
 
 % Second image
-I2 = imread('2015_08.jpg');
+I2 = imread(fullfile('images','Brazilian Rainforest','2020_12.jpg'));
 %I2 = imresize(I2, 0.25);
 % I2 = single(I2);
 % if size(I2,3)>1 I2 = rgb2gray(I2); end
@@ -36,6 +37,7 @@ edge_thresh = 10; % decrease to limit; default is 10
 % % Show all SIFT features detected
 % h = vl_plotframe(f2) ;
 % set(h,'color','y','linewidth',2) ;
+KeyPoints_Pic2 = [f2(1,:);f2(2,:)];
 
 
 thresh = 2.0; % default = 1.5; increase to limit matches
@@ -50,20 +52,20 @@ d2match = d2(:,indices2);
 
 
 % Show matches
-figure, imshow([I1,I2],[]);
-o = size(I1,2) ;
-line([f1match(1,:);f2match(1,:)+o], ...
-[f1match(2,:);f2match(2,:)]) ;
-for i=1:size(f1match,2)
-x = f1match(1,i);
-y = f1match(2,i);
-text(x,y,sprintf('%d',i), 'Color', 'r');
-end
-for i=1:size(f2match,2)
-x = f2match(1,i);
-y = f2match(2,i);
-text(x+o,y,sprintf('%d',i), 'Color', 'r');
-end
+% figure, imshow([I1,I2],[]);
+% o = size(I1,2) ;
+% line([f1match(1,:);f2match(1,:)+o], ...
+% [f1match(2,:);f2match(2,:)]) ;
+% for i=1:size(f1match,2)
+% x = f1match(1,i);
+% y = f1match(2,i);
+% text(x,y,sprintf('%d',i), 'Color', 'r');
+% end
+% for i=1:size(f2match,2)
+% x = f2match(1,i);
+% y = f2match(2,i);
+% text(x+o,y,sprintf('%d',i), 'Color', 'r');
+% end
 
 
 % Between all pairs of matching features, compute
@@ -155,6 +157,8 @@ disp(indices);
 
 
 % Show matches to features in largest bin as line segments
+MatchedKeyPoints_Pic1 = zeros(2, length(indices));
+MatchedKeyPoints_Pic2 = zeros(2, length(indices));
 figure, imshow([I1,I2],[]);
 o = size(I1,2) ;
 line([f1match(1,indices);f2match(1,indices)+o], ...
@@ -162,10 +166,14 @@ line([f1match(1,indices);f2match(1,indices)+o], ...
 for i=1:length(indices)
 x = f1match(1,indices(i));
 y = f1match(2,indices(i));
-text(x,y,sprintf('%d',indices(i)), 'Color', 'r');
+MatchedKeyPoints_Pic1(1,i) = [x];
+MatchedKeyPoints_Pic1(2,i) = [y];
+%text(x,y,sprintf('%d',indices(i)), 'Color', 'r');
 end
 for i=1:length(indices)
 x = f2match(1,indices(i));
 y = f2match(2,indices(i));
-text(x+o,y,sprintf('%d',indices(i)), 'Color', 'r');
+MatchedKeyPoints_Pic2(1,i) = [x];
+MatchedKeyPoints_Pic2(2,i) = [y];
+%text(x+o,y,sprintf('%d',indices(i)), 'Color', 'r');
 end
