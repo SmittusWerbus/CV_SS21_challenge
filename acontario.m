@@ -1,17 +1,18 @@
+function [output] = acontario(second_image,keypoints_im2, matchpoints_1_2)
 %% Esketit
 % Matrizen einlesen
-Keypoints_Image_1 = readmatrix("Keypoints1.csv");
-Keypoints_Image_2 = readmatrix("Keypoints2.csv");
+% Keypoints_Image_1 = keypoints_im1;
+Keypoints_Image_2 = round(keypoints_im2);
 % Keypoints_Image_3 = readmatrix("Keypoints2.csv");
 % Keypoints_Image_4 = readmatrix("Keypoints2.csv");
 
-Matched_Points_1_2 = readmatrix("Matches.csv");
+Matched_Points_1_2 = round(matchpoints_1_2);
 % Matched_Points_2_3 = readmatrix("Matches.csv");
 % Matched_Points_3_4 = readmatrix("Matches.csv");
 
 %% a contrario
-kx_1 = Keypoints_Image_1(1,:);
-ky_1 = Keypoints_Image_1(2,:);
+% kx_1 = Keypoints_Image_1(1,:);
+% ky_1 = Keypoints_Image_1(2,:);
 kx_2 = Keypoints_Image_2(1,:);
 ky_2 = Keypoints_Image_2(2,:);
 mx_1 = Matched_Points_1_2(1,:);
@@ -34,8 +35,8 @@ kp_2_no_matched = [kx_2; ky_2];
 kp_2_no_matched(:,any(kp_2_no_matched == 0))=[];
 
 %% Pro Keypoint Radius Ánzahl an Keypoints und Matchedpoints berechnen
-r = 30;
-cnt_mat = zeros(2, 3802);
+r = 80;
+cnt_mat = zeros(2, length(kp_2_no_matched));
 for i=1:length(kp_2_no_matched)
     
     for j=1:length(kp_2_no_matched)
@@ -82,7 +83,7 @@ anders = [anders_x; anders_y];
 anders(:,any(anders == 0))=[];
 anders_x = anders(1,:);
 anders_y = anders(2,:);
-image_skia = imread("/Users/maxikrahschutz/Desktop/Studium/Master_EI/1.Semester/CV/Project/Challange/Local_Challange/Images/Dubai/2005_12.jpg");
+image_skia = second_image;
 % image_skia = rgb2gray(image_skia);
 % image_skia = flipdim(image_skia ,1);
 % imshow(image_skia);
@@ -117,4 +118,5 @@ for i=1:length(anders)
     image_skia(1064-anders_y(i),anders_x(i)-1,3)=0;
     image_skia(1064-anders_y(i),anders_x(i)+1,3)=0;
 end
-imshow(image_skia)
+output = image_skia;
+end
