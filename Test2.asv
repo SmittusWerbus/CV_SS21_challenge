@@ -4,7 +4,8 @@
 I1 = imread(fullfile('images','Brazilian Rainforest','1995_12.jpg'));
 I2 = imread(fullfile('images','Brazilian Rainforest','2020_12.jpg'));
 
-
+I1 = adapthisteq(I1,'NumTiles',[10 10]);
+1 = adapthisteq(I12,'NumTiles',[10 10]);
 
 
 
@@ -47,11 +48,6 @@ edge_thresh = 10; % decrease to limit; default is 10
 % % Show all SIFT features detected
 % h = vl_plotframe(f2) ;
 % set(h,'color','y','linewidth',2) ;
-
-
-%I1 = adapthisteq(I1,'NumTiles',[10 10]);
-%I2 = adapthisteq(I2,'NumTiles',[10 10]);
-
 
 
 thresh = 2.0; % default = 1.5; increase to limit matches
