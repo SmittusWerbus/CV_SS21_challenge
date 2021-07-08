@@ -53,10 +53,10 @@ allY = zeros(1,size(matches,2));
 
 
 for i=1:size(matches, 2)
-fprintf('Match %d: image 1 (scale,orient = %f,%f) matches', ...
-i, f1match(3,i), f1match(4,i));
-fprintf(' image 2 (scale,orient = %f,%f)\n', ...
-f2match(3,i), f2match(4,i));
+%fprintf('Match %d: image 1 (scale,orient = %f,%f) matches', ...
+%i, f1match(3,i), f1match(4,i));
+%fprintf(' image 2 (scale,orient = %f,%f)\n', ...
+%f2match(3,i), f2match(4,i));
 scaleRatio = f1match(3,i)/f2match(3,i);
 dTheta = f1match(4,i) - f2match(4,i);
 

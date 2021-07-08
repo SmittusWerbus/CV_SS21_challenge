@@ -32,20 +32,20 @@ end
 % Find all bins with 3 or more features
 
 [ap,sp,xp,yp] = ind2sub(size(H), find(H>=3));
-fprintf('Peaks in the Hough array:\n');
+%fprintf('Peaks in the Hough array:\n');
 
-for i=1:length(ap)
-    fprintf('%d: %d points, (a,s,x,y) = %f,%f,%f,%f\n', ...
-    i, H(ap(i), sp(i), xp(i), yp(i)), ...
-    aBin(ap(i)), sBin(sp(i)), xBin(xp(i)), yBin(yp(i)) );
-end
+%for i=1:length(ap)
+    %fprintf('%d: %d points, (a,s,x,y) = %f,%f,%f,%f\n', ...
+    %i, H(ap(i), sp(i), xp(i), yp(i)), ...
+    %aBin(ap(i)), sBin(sp(i)), xBin(xp(i)), yBin(yp(i)) );
+%end
 
 
 % Get the features corresponding to the largest bin
 
 nFeatures = max(H(:)); % Number of features in largest bin
 
-fprintf('Largest bin contains %d features\n', nFeatures);
+%fprintf('Largest bin contains %d features\n', nFeatures);
 [ap,sp,xp,yp] = ind2sub(size(H), find(H == nFeatures));
 indices = []; % Make a list of indices
 
@@ -64,8 +64,8 @@ for i=1:size(matches, 2)
     indices = [indices i];
 end
 end
-fprintf('Features belonging to highest peak:\n');
-disp(indices);
+%fprintf('Features belonging to highest peak:\n');
+%disp(indices);
 
 
 % Show matches to features in largest bin as line segments
@@ -75,6 +75,8 @@ figure, imshow([I1,I2],[]);
 o = size(I1,2) ;
 line([f1match(1,indices);f2match(1,indices)+o], ...
 [f1match(2,indices);f2match(2,indices)]) ;
+title('showing matches via toolbox');
+
 
 for i=1:length(indices)
 x = f1match(1,indices(i));
@@ -95,9 +97,9 @@ end
 % transpose of Inliers to account for the syntax of proporetary matlab
 % functions
 
-
+figure
 showMatchedFeatures(I1,I2, transpose(Inliers_1), transpose(Inliers_2), 'Method', 'blend');
-
+title('showing matches via prop matlab');
 
 %plot(x,y)
 

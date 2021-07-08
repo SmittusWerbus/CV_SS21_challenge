@@ -1,9 +1,7 @@
 
 % Init VLfeat Toolbox
 
-%run(fullfile('CV_SS21_challenge', 'VLFEATROOT', 'toolbox', 'vl_setup.m'));
-%run('CV_SS21_challenge/VLFEATROOT/toolbox/vl_setup')
-
+run('VLFEATROOT/toolbox/vl_setup');
 
 % Pre processing der Bilder
 
