@@ -101,17 +101,17 @@ end
 %showMatchedFeatures(I1,I2, transpose(Inliers_1), transpose(Inliers_2), 'Method', 'blend');
 %title('showing matches via prop matlab');
 
-% Clustering of inliers
+% Clustering of inliers via k-means, wieder raus
 
-trans_inliers = transpose(Inliers_2);
-trans_keys = transpose(Keypoints_2);
-[idx, ctrs] = kmeans(trans_keys, length(Inliers_2));
+%trans_inliers = transpose(Inliers_2);
+%trans_keys = transpose(Keypoints_2);
+%[idx, ctrs] = kmeans(trans_keys, length(Inliers_2));
 
-figure
-showMatchedFeatures(I1,I2, transpose(Inliers_1), transpose(Inliers_2), 'Method', 'blend');
-title('showing matches via prop matlab');
-hold on;
-PlotClusters(trans_keys, idx, ctrs)
+%figure
+%showMatchedFeatures(I1,I2, transpose(Inliers_1), transpose(Inliers_2), 'Method', 'blend');
+%title('showing matches via prop matlab');
+%hold on;
+%PlotClusters(trans_keys, idx, ctrs)
 
 
 
