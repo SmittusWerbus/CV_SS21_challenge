@@ -1,5 +1,12 @@
-function [change] = acontario(object)
+function [skia] = acontario(object)
 %% Esketit
+alg_name = "hallo";
+if(obj.app.Switch.Value=="SURF")
+    alg_name = "SURF";
+elseif(obj.app.Switch.Value=="SIFT")
+    alg_name = "SIFT";
+end
+
 for w=2:length(object.pic)
     % Keypoints und Matchedkeypoints einlesen
     Keypoints_Image_2 = round(object.pic{1,w}.SIFT.features);
@@ -70,37 +77,7 @@ for w=2:length(object.pic)
     anders_y = kp_2_no_matched(2,:).*ergebnis;
     anders = [anders_x; anders_y];
     anders(:,any(anders == 0))=[];
-    % anders_x = anders(1,:);
-    % anders_y = anders(2,:);
-    % for i=1:length(anders)
-        image_skia(1064-anders_y(i),anders_x(i),1)=255;
-        image_skia(1064-anders_y(i)+1,anders_x(i)+1,1)=255;
-        image_skia(1064-anders_y(i)-1,anders_x(i)-1,1)=255;
-        image_skia(1064-anders_y(i)+1,anders_x(i)-1,1)=255;
-        image_skia(1064-anders_y(i)-1,anders_x(i)+1,1)=255;
-        image_skia(1064-anders_y(i)+1,anders_x(i),1)=255;
-        image_skia(1064-anders_y(i)-1,anders_x(i),1)=255;
-        image_skia(1064-anders_y(i),anders_x(i)-1,1)=255;
-        image_skia(1064-anders_y(i),anders_x(i)+1,1)=255;
-        image_skia(1064-anders_y(i),anders_x(i),2)=0;
-        image_skia(1064-anders_y(i)+1,anders_x(i)+1,2)=0;
-        image_skia(1064-anders_y(i)-1,anders_x(i)-1,2)=0;
-        image_skia(1064-anders_y(i)+1,anders_x(i)-1,2)=0;
-        image_skia(1064-anders_y(i)-1,anders_x(i)+1,2)=0;
-        image_skia(1064-anders_y(i)+1,anders_x(i),2)=0;
-        image_skia(1064-anders_y(i)-1,anders_x(i),2)=0;
-        image_skia(1064-anders_y(i),anders_x(i)-1,2)=0;
-        image_skia(1064-anders_y(i),anders_x(i)+1,2)=0;
-        image_skia(1064-anders_y(i),anders_x(i),3)=0;
-        image_skia(1064-anders_y(i)+1,anders_x(i)+1,3)=0;
-        image_skia(1064-anders_y(i)-1,anders_x(i)-1,3)=0;
-        image_skia(1064-anders_y(i)+1,anders_x(i)-1,3)=0;
-        image_skia(1064-anders_y(i)-1,anders_x(i)+1,3)=0;
-        image_skia(1064-anders_y(i)+1,anders_x(i),3)=0;
-        image_skia(1064-anders_y(i)-1,anders_x(i),3)=0;
-        image_skia(1064-anders_y(i),anders_x(i)-1,3)=0;
-        image_skia(1064-anders_y(i),anders_x(i)+1,3)=0;
-    end
+    object.pic{1,w}.SIFT.change = anders;
 end
-change = image_skia;
+skia = object;
 end

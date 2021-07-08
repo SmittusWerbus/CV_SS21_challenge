@@ -134,7 +134,7 @@ classdef pictures
                 end
                 progress.Value = i/length(obj.pic);
             end
-            obj = acontario(obj);  % maxi andi zugefugt
+            % obj = acontario(obj);  % maxi andi zugefugt
         end
         
         function date = determine_date(obj,name)
