@@ -1,4 +1,4 @@
-function [Inliers_1, Inliers_2] = hough_binning(I1, I2, f1match, f2match, allX, allY, allScales, allAngs, matches)
+function [Inliers_1, Inliers_2] = hough_binning(I1, I2, f1match, f2match, allX, allY, allScales, allAngs, matches, Keypoints_2)
 %RANSAC Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -97,9 +97,22 @@ end
 % transpose of Inliers to account for the syntax of proporetary matlab
 % functions
 
+%figure
+%showMatchedFeatures(I1,I2, transpose(Inliers_1), transpose(Inliers_2), 'Method', 'blend');
+%title('showing matches via prop matlab');
+
+% Clustering of inliers
+
+trans_inliers = transpose(Inliers_2);
+trans_keys = transpose(Keypoints_2);
+[idx, ctrs] = kmeans(trans_keys, length(Inliers_2));
+
 figure
 showMatchedFeatures(I1,I2, transpose(Inliers_1), transpose(Inliers_2), 'Method', 'blend');
 title('showing matches via prop matlab');
+hold on;
+PlotClusters(trans_keys, idx, ctrs)
+
 
 %plot(x,y)
 
