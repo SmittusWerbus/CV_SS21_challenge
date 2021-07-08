@@ -1,4 +1,4 @@
-function [skia] = acontario(object)
+function [change] = acontario(object)
 %% Esketit
 for w=2:length(object.pic)
     % Keypoints und Matchedkeypoints einlesen
@@ -70,7 +70,37 @@ for w=2:length(object.pic)
     anders_y = kp_2_no_matched(2,:).*ergebnis;
     anders = [anders_x; anders_y];
     anders(:,any(anders == 0))=[];
-    object.pic{1,w}.SIFT.change = anders;
+    % anders_x = anders(1,:);
+    % anders_y = anders(2,:);
+    % for i=1:length(anders)
+        image_skia(1064-anders_y(i),anders_x(i),1)=255;
+        image_skia(1064-anders_y(i)+1,anders_x(i)+1,1)=255;
+        image_skia(1064-anders_y(i)-1,anders_x(i)-1,1)=255;
+        image_skia(1064-anders_y(i)+1,anders_x(i)-1,1)=255;
+        image_skia(1064-anders_y(i)-1,anders_x(i)+1,1)=255;
+        image_skia(1064-anders_y(i)+1,anders_x(i),1)=255;
+        image_skia(1064-anders_y(i)-1,anders_x(i),1)=255;
+        image_skia(1064-anders_y(i),anders_x(i)-1,1)=255;
+        image_skia(1064-anders_y(i),anders_x(i)+1,1)=255;
+        image_skia(1064-anders_y(i),anders_x(i),2)=0;
+        image_skia(1064-anders_y(i)+1,anders_x(i)+1,2)=0;
+        image_skia(1064-anders_y(i)-1,anders_x(i)-1,2)=0;
+        image_skia(1064-anders_y(i)+1,anders_x(i)-1,2)=0;
+        image_skia(1064-anders_y(i)-1,anders_x(i)+1,2)=0;
+        image_skia(1064-anders_y(i)+1,anders_x(i),2)=0;
+        image_skia(1064-anders_y(i)-1,anders_x(i),2)=0;
+        image_skia(1064-anders_y(i),anders_x(i)-1,2)=0;
+        image_skia(1064-anders_y(i),anders_x(i)+1,2)=0;
+        image_skia(1064-anders_y(i),anders_x(i),3)=0;
+        image_skia(1064-anders_y(i)+1,anders_x(i)+1,3)=0;
+        image_skia(1064-anders_y(i)-1,anders_x(i)-1,3)=0;
+        image_skia(1064-anders_y(i)+1,anders_x(i)-1,3)=0;
+        image_skia(1064-anders_y(i)-1,anders_x(i)+1,3)=0;
+        image_skia(1064-anders_y(i)+1,anders_x(i),3)=0;
+        image_skia(1064-anders_y(i)-1,anders_x(i),3)=0;
+        image_skia(1064-anders_y(i),anders_x(i)-1,3)=0;
+        image_skia(1064-anders_y(i),anders_x(i)+1,3)=0;
+    end
 end
-skia = object;
+change = image_skia;
 end
