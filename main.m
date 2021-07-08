@@ -1,8 +1,3 @@
-
-% Init VLfeat Toolbox
-
-run('VLFEATROOT/toolbox/vl_setup');
-
 % Pre processing der Bilder
 
 [I1, I2] = prep;
