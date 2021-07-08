@@ -97,9 +97,9 @@ end
 % transpose of Inliers to account for the syntax of proporetary matlab
 % functions
 
-%figure
-%showMatchedFeatures(I1,I2, transpose(Inliers_1), transpose(Inliers_2), 'Method', 'blend');
-%title('showing matches via prop matlab');
+figure
+showMatchedFeatures(I1,I2, transpose(Inliers_1), transpose(Inliers_2), 'Method', 'blend');
+title('showing matches via prop matlab');
 
 % Clustering of inliers via k-means, wieder raus
 
