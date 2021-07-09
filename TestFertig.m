@@ -178,5 +178,26 @@ MatchedKeyPoints_Pic2(1,i) = [x];
 MatchedKeyPoints_Pic2(2,i) = [y];
 %text(x+o,y,sprintf('%d',indices(i)), 'Color', 'r');
 end
-imageskiaa = acontario(I2_weida, KeyPoints_Pic2, MatchedKeyPoints_Pic2);
-imshow(imageskiaa)
+
+% a contrario
+
+%imageskiaa = acontario(I2_weida, KeyPoints_Pic2, MatchedKeyPoints_Pic2);
+%imshow(imageskiaa)
+
+
+% d1_trans = transpose(d1);
+% d2_trans = transpose(d2);
+% 
+% keypoints_1_trans = transpose(Keypoints_1);
+% keypoints_2_trans = transpose(Keypoints_2);
+% 
+% indexPairs = matchFeatures(d1_trans, d2_trans) ;
+% matchedPoints1 = keypoints_1_trans(indexPairs(:, 1));
+% matchedPoints2 = keypoints_2_trans(indexPairs(:, 2));
+% 
+% 
+% 
+% figure; ax = axes;
+% showMatchedFeatures(I1,I2,matchedPoints1,matchedPoints2,'Parent',ax);
+% title(ax, 'Putative point matches');
+% legend(ax,'Matched points 1','Matched points 2');

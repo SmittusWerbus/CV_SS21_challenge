@@ -11,7 +11,7 @@ function [f1match, f2match, d1match, d2match, allX, allY, allScales, allAngs, ma
 %matchedPoints_2 = valid_points_2(pairs(:,2),:);
 
 
-thresh = 2.0; % default = 1.5; increase to limit matches
+thresh = 1.5; % default = 1.5; increase to limit matches
 
 [matches, scores] = vl_ubcmatch(d1, d2, thresh);
 
@@ -85,7 +85,6 @@ end
 
 % figure, plot(allScales, allAngs, '.'), xlabel('scale'), ylabel('angle');
 % figure, plot(allX, allY, '.'), xlabel('x'), ylabel('y');
-
 
 
 

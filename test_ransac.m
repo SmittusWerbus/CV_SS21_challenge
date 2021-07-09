@@ -71,6 +71,10 @@ matchedPoints_1 = valid_points_1(pairs(:,1),:);
 matchedPoints_2 = valid_points_2(pairs(:,2),:);
 
 
+imshow(I2); hold on;
+%
+plot(points_2);
+
 %f_matrix_RANSAC = estimateFundamentalMatrix(matchedPoints_1, matchedPoints_2,'Method','RANSAC', 'NumTrials',2000,'DistanceThreshold', 1e-4)
 
 [f_LMedS, inliers] = estimateFundamentalMatrix(matchedPoints_1,matchedPoints_2,'Method','RANSAC','NumTrials', 2000, 'InlierPercentage', 30, 'DistanceType', 'Algebraic', 'DistanceThreshold', 0.01);
