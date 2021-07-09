@@ -17,7 +17,7 @@ classdef pictures
                 pic{1,length(old_pic)+i}.date = obj.determine_date(name{1,i});
                 pic{1,length(old_pic)+i}.picture = imread(join([dir,name{1,i}],""));
                 pic{1,length(old_pic)+i}.SURF = [];
-                pic{1,length(old_pic)+i}.ORB = [];
+                pic{1,length(old_pic)+i}.SIFT = [];
             end
             obj.pic=obj.determine_order(pic);
             % hier muss noch eine Überprüfung nach doppelten Bildern kommen
@@ -27,7 +27,9 @@ classdef pictures
             progress.Message = 'Detecting Features';
             progress.Value = 0;
             for i=1:length(obj.pic)
-                
+                if(i>1)
+                    obj.pic{1,i}.picture = imhistmatch(obj.pic{1,i}.picture,obj.pic{1,i-1}.picture);
+                end
                 bw = obj.preprocessing(obj.pic{1,i}.picture);
                 
                 %% Feature Detection
@@ -35,8 +37,8 @@ classdef pictures
                     pts = detectSURFFeatures(bw);
                     [obj.pic{1,i}.SURF.features,obj.pic{1,i}.SURF.validPts] = extractFeatures(bw,pts);
                 elseif(obj.app.Switch.Value=="SIFT")
-                    peak_thresh = 0; % increase to limit; default is 0
-                    edge_thresh = 10; % decrease to limit; default is 10
+                    peak_thresh = obj.app.PeakThresholdEditField.Value; % increase to limit; default is 0
+                    edge_thresh = obj.app.EdgeThresholdEditField.Value; % decrease to limit; default is 10
                     [f1,d1] = vl_sift(single(bw),'PeakThresh', peak_thresh,'edgethresh', edge_thresh );
                     obj.pic{1,i}.SIFT.features = f1;
                     obj.pic{1,i}.SIFT.d = d1;
@@ -49,7 +51,7 @@ classdef pictures
             for i=1:length(obj.pic)
                 if(obj.app.Switch.Value=="SURF")
                     if(i~=length(obj.pic))
-                        index_pairs = matchFeatures(obj.pic{1,i}.SURF.features,obj.pic{1,i+1}.SURF.features);
+                        index_pairs = matchFeatures(obj.pic{1,i}.SURF.features,obj.pic{1,i+1}.SURF.features,'MatchThreshold',50);
                         obj.pic{1,i}.SURF.matchedPts{1,1} = obj.pic{1,i}.SURF.validPts(index_pairs(:,1));
                         obj.pic{1,i}.SURF.matchedPts{1,2} = obj.pic{1,i+1}.SURF.validPts(index_pairs(:,2));
                     else
@@ -99,7 +101,7 @@ classdef pictures
                     %%
                     copytform=tform;
                 elseif(obj.app.Switch.Value=="SIFT")
-                    thresh = 2.0; % default = 1.5; increase to limit matches
+                    thresh = obj.app.ThresholdMatchingEditField.Value; % default = 1.5; increase to limit matches
                     if(i~=length(obj.pic))
                         [matches, scores] = vl_ubcmatch(obj.pic{1,i}.SIFT.d,obj.pic{1,i+1}.SIFT.d, thresh);
                         indices1 = matches(1,:); % Get matching features
@@ -147,27 +149,27 @@ classdef pictures
                             date(1,i)=str2double(splitted(i,1));
                         else
                             date(1,i)=NaN;
-                            uialert(obj.app.UIFigure,join(["The file ",name," has got the wrong nameclature. Please rename the file."],""),"Wrong Filename");
+                            uialert(obj.app.SatelliteImageChangeRecognitionUIFigure,join(["The file ",name," has got the wrong nameclature. Please rename the file."],""),"Wrong Filename");
                         end
                     end
                     if(date(1,1)<1960 || date(1,1)>2100)
                         date(1,1)=NaN;
-                        uialert(obj.app.UIFigure,join(["The file ",name," has got the wrong nameclature. Please rename the file."],""),"Wrong Filename");
+                        uialert(obj.app.SatelliteImageChangeRecognitionUIFigure,join(["The file ",name," has got the wrong nameclature. Please rename the file."],""),"Wrong Filename");
                     end
                     if(date(1,2)>12 || date(1,2)<=0)
                         date(1,2)=NaN;
-                        uialert(obj.app.UIFigure,join(["The file ",name," has got the wrong nameclature. Please rename the file."],""),"Wrong Filename");
+                        uialert(obj.app.SatelliteImageChangeRecognitionUIFigure,join(["The file ",name," has got the wrong nameclature. Please rename the file."],""),"Wrong Filename");
                     end
                 else
                     date = [NaN,NaN];
-                    uialert(obj.app.UIFigure,join(["The file ",name," has got the wrong nameclature. Please rename the file."],""),"Wrong Filename");
+                    uialert(obj.app.SatelliteImageChangeRecognitionUIFigure,join(["The file ",name," has got the wrong nameclature. Please rename the file."],""),"Wrong Filename");
                 end
                 if(all(~isnan(date)))
                     date=datetime(date(1,1),date(1,2),1);
                 end
             catch
                date = [NaN,NaN];
-               uialert(obj.app.UIFigure,join(["The file ",name," has got the wrong nameclature. Please rename the file."],""),"Wrong Filename");
+               uialert(obj.app.SatelliteImageChangeRecognitionUIFigure,join(["The file ",name," has got the wrong nameclature. Please rename the file."],""),"Wrong Filename");
             end
         end
         
@@ -202,8 +204,9 @@ classdef pictures
             %% Flat-field correction
             ffc = imflatfield(sharp,30);
             %% RGB to Gray
-            bw = rgb2gray(ffc);
-            preprocessed = adapthisteq(bw);
+            preprocessed = rgb2gray(ffc);
+            %% Adapt Histogram Equation
+%             preprocessed = adapthisteq(bw);
         end
     end
 end
