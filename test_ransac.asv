@@ -95,28 +95,30 @@ figure;
 %showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'montage','PlotOptions',{'ro','go','y--'});
 
 %[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints(inputfile,maxdist,minClusterSize,method,mergeflag);
-%showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
+showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
 
 writematrix(matchedPoints_2.Location, 'matches2clst.txt');
 
  
 
-[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints('matches2clst.txt', 50, 1,'point', 'merge');
+[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints('matches2clst.txt', 20, 1,'point', 'merge');
+
 C = cell2mat(clustersXY);
 
-figure; hold on;
-showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
+
+%ax = ax1
+%imshow(I2); hold on;
+%plot(clustersXY, matchedPoints_2);
 
 
- 
+figure 
 
-xp = 0;
-yp = -size(I1,2);
 
-  for i=1:length(clustersCentroids)
-        xunit = xp + clustersCentroids(i,1);
-        yunit = yp + clustersCentroids(i,2);
-      plot(xunit, -yunit, 'Ob', 'MarkerSize',50)
+hold on
+  for i=1:length(p)
+        xunit = xp + p(i)
+        yunit = yp + q(i)
+      plot(xunit, yunit, 'Ob')
   end
 
 
