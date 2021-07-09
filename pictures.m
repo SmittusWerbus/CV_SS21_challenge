@@ -124,6 +124,7 @@ classdef pictures
                     obj.pic{1,i}.SIFT.filteredmatchedPts{1,2} = obj.pic{1,i}.SIFT.matchedPts{1,2}(inlierIdx,:);
                     if(~isempty(copytform))
                        tform.T=copytform.T*tform.T; 
+                       obj.pic{1,i}.SIFT.Tmat = tform.T;
                     end
                     if(i~=length(obj.pic))
                         outputView = imref2d(size(obj.pic{1,i}.picture));
@@ -131,11 +132,11 @@ classdef pictures
 %                         outputView.YWorldLimits = outputView.YWorldLimits-mean(outputView.YWorldLimits);
                         obj.pic{1,i+1}.SIFT.rotated_picture = imwarp(obj.pic{1,i+1}.picture,tform,'OutputView',outputView);
                     end
-                    copytform=tform;
+                    copytform=tform;    
                 end
-                
                 progress.Value = i/length(obj.pic);
             end
+            % obj = acontario(obj);  % maxi andi zugefugt
         end
         
         function date = determine_date(obj,name)
