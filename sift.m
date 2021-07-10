@@ -14,7 +14,7 @@ Keypoints_1 = [f1(1,:);f1(2,:)];
 % These parameters limit the number of features detected
 
 peak_thresh = 0; % increase to limit; default is 0
-edge_thresh = 10; % decrease to limit; default is 10
+edge_thresh = 50; % decrease to limit; default is 10
 [f2,d2] = vl_sift(I2, 'PeakThresh', peak_thresh, 'edgethresh', edge_thresh );
 
 

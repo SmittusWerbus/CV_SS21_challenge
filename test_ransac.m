@@ -2,8 +2,8 @@
 
 
 
-I1_raw = rgb2gray(imread(fullfile('images','Frauenkirche','2012_08.jpg')));
-I2_raw = rgb2gray(imread(fullfile('images','Frauenkirche','2015_08.jpg')));
+I1_raw = rgb2gray(imread(fullfile('images','Dubai','2015_12.jpg')));
+I2_raw = rgb2gray(imread(fullfile('images','Dubai','2020_12.jpg')));
 
 I1 = adapthisteq(I1_raw,'NumTiles',[10 10]);
 I2 = adapthisteq(I2_raw,'NumTiles',[10 10]);
@@ -44,19 +44,19 @@ points_2_res = sift_points_2;
 %points_2_res = points_2%.selectStrongest(50000);
 
 
-figure
-
-tiledlayout(1,2)
-
-ax1 = nexttile;
-
-imshow(I1_raw);
-hold on;
-plot(points_1_res);
-
-ax2 = nexttile;
-imshow(I1);
-
+% figure
+% 
+% tiledlayout(1,2)
+% 
+% ax1 = nexttile;
+% 
+% imshow(I1_raw);
+% hold on;
+% plot(points_1_res);
+% 
+% ax2 = nexttile;
+% imshow(I1);
+% 
 
 
 
@@ -70,6 +70,10 @@ pairs = matchFeatures(features_1, features_2);
 matchedPoints_1 = valid_points_1(pairs(:,1),:);
 matchedPoints_2 = valid_points_2(pairs(:,2),:);
 
+
+imshow(I2); hold on;
+%
+plot(points_2);
 
 %f_matrix_RANSAC = estimateFundamentalMatrix(matchedPoints_1, matchedPoints_2,'Method','RANSAC', 'NumTrials',2000,'DistanceThreshold', 1e-4)
 
@@ -93,10 +97,59 @@ legend('matched points 1','matched points 2');
 %ax2 = nexttile;
 figure;
 %showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'montage','PlotOptions',{'ro','go','y--'});
-showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
+
+%[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints(inputfile,maxdist,minClusterSize,method,mergeflag);
+%showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
+
+
+% Hier muss noch von matched points zu changed points geändert werden, reicht aber
+% zum rumprobieren
+
+writematrix(matchedPoints_2.Location, 'matches2clst.txt'); 
+
+[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints('matches2clst.txt', 50, 1,'point', 'merge');
+
+allLengths = cellfun(@length, clustersXY);
+% Now find the longest vector between element 15 and 35 (for example)
+maxLength = max(allLengths);
+
+centroid_bins = [clustersCentroids, allLengths];
+
+
+clusters_mat = cell2mat(clustersXY);
+
+figure; hold on;
+
+H = showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
+
+x0 = 0;
+y0 = size(I2,1);
 
 
 
+  for i=1:length(clustersCentroids)
+        xunit = x0 + clustersCentroids(i,1);
+        yunit =  -(clustersCentroids(i,2)) ;
+      plot(xunit, -yunit, 'Ob', 'MarkerSize',50)
+  end
 
-title('Point matches after outliers were removed');
-legend('matched points 1','matched points 2');
+ % Interpolation zwischen den Datenpunkten
+ 
+
+ figure 
+ %F = TriScatteredInterp(centroid_bins(:,1), centroid_bins(:,2), centroid_bins(:,3));
+F = scatteredInterpolant(centroid_bins(:,[1 2]), centroid_bins(:,3));
+ 
+ 
+%[qx,qy] = meshgrid(double(I2(:,2)), double(I2(:,1)));
+[qx,qy] = meshgrid(centroid_bins(:,1), centroid_bins(:,2));
+qz = F(qx,qy);
+ 
+mesh(qx,qy,qz)
+%hold on
+plot3(centroid_bins(:,2), centroid_bins(:,1), qz,'o')
+ 
+ 
+ 
+%title('Point matches after outliers were removed');
+%legend('matched points 1','matched points 2');
