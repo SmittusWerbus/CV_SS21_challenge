@@ -1,9 +1,10 @@
 
 
 
+close all;
 
-I1_raw = rgb2gray(imread(fullfile('images','Dubai','2015_12.jpg')));
-I2_raw = rgb2gray(imread(fullfile('images','Dubai','2020_12.jpg')));
+I1_raw = rgb2gray(imread(fullfile('images','Wiesn','2018_04.jpg')));
+I2_raw = rgb2gray(imread(fullfile('images','Wiesn','2019_09.jpg')));
 
 I1 = adapthisteq(I1_raw,'NumTiles',[10 10]);
 I2 = adapthisteq(I2_raw,'NumTiles',[10 10]);
@@ -81,6 +82,11 @@ plot(points_2);
 %[tform,inliers] = estimateGeometricTransform2D(matchedPoints_1,matchedPoints_2)
 
 
+
+%[t1, t2] = estimateUncalibratedRectification(f,inlier_points1,...
+ %   inlier_points2,size(I2));
+
+
 figure; 
 %tiledlayout(2,1)                           % Creates subplots  
 
@@ -102,7 +108,7 @@ figure;
 %showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
 
 
-% Hier muss noch von matched points zu changed points geändert werden, reicht aber
+% Hier muss noch von matched points zu changed points geï¿½ndert werden, reicht aber
 % zum rumprobieren
 
 writematrix(matchedPoints_2.Location, 'matches2clst.txt'); 
@@ -120,7 +126,7 @@ clusters_mat = cell2mat(clustersXY);
 
 figure; hold on;
 
-H = showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
+H = showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'montage','PlotOptions',{'ro','go','y--'});
 
 x0 = 0;
 y0 = size(I2,1);
@@ -138,18 +144,45 @@ y0 = size(I2,1);
 
  figure 
  %F = TriScatteredInterp(centroid_bins(:,1), centroid_bins(:,2), centroid_bins(:,3));
-F = scatteredInterpolant(centroid_bins(:,[1 2]), centroid_bins(:,3));
+%F = scatteredInterpolant(centroid_bins(:,[1 2]), centroid_bins(:,3), 'linear', 'linear');
  
+F = scatteredInterpolant(centroid_bins(:,2),centroid_bins(:,1), centroid_bins(:,3), 'natural');
  
-%[qx,qy] = meshgrid(double(I2(:,2)), double(I2(:,1)));
-[qx,qy] = meshgrid(centroid_bins(:,1), centroid_bins(:,2));
+
+
+
+%[qx,qy] = meshgrid(double(I2(1,:)), double(I2(:,2)));
+%[qx,qy] = meshgrid(centroid_bins(:,1), centroid_bins(:,2));
+
+[qx,qy] = meshgrid(linspace(0,size(I2,2)), linspace(0,size(I2,1)));
 qz = F(qx,qy);
  
 mesh(qx,qy,qz)
 %hold on
-plot3(centroid_bins(:,2), centroid_bins(:,1), qz,'o')
+figure; hold on;
+for i=1:length(centroid_bins)
+    plot3(centroid_bins(i,2), centroid_bins(i,1) , centroid_bins(i,3),'o')
+end
+
+%figure
+%meshCanopy(I2,qz,@spring)
+figure
+contourf(qx, qy, qz,'LineColor','none', 'ShowText', 'on')
+legend('Sample Points','Interpolated Surface','Location','NorthWest')
  
+
+figure;
+
+%DataDensityPlot(size(I2,1),size(I2,1) , centroid_bins(:,3) );
+
+%[xG, yG] = meshgrid(-5:5);
+%sigma = 2.5;
+%g = exp(-xG.^2./(2.*sigma.^2)-yG.^2./(2.*sigma.^2));
+%g = g./sum(g(:));
  
+
+%imagesc(pts, pts, conv2(N, g, 'same'));
+
  
 %title('Point matches after outliers were removed');
 %legend('matched points 1','matched points 2');
