@@ -2,8 +2,8 @@
 
 
 
-I1_raw = rgb2gray(imread(fullfile('images','Frauenkirche','2012_08.jpg')));
-I2_raw = rgb2gray(imread(fullfile('images','Frauenkirche','2015_08.jpg')));
+I1_raw = rgb2gray(imread(fullfile('images','Dubai','2015_12.jpg')));
+I2_raw = rgb2gray(imread(fullfile('images','Dubai','2020_12.jpg')));
 
 I1 = adapthisteq(I1_raw,'NumTiles',[10 10]);
 I2 = adapthisteq(I2_raw,'NumTiles',[10 10]);
@@ -97,10 +97,32 @@ legend('matched points 1','matched points 2');
 %ax2 = nexttile;
 figure;
 %showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'montage','PlotOptions',{'ro','go','y--'});
+
+%[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints(inputfile,maxdist,minClusterSize,method,mergeflag);
+%showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
+
+writematrix(matchedPoints_2.Location, 'matches2clst.txt');
+
+ 
+
+[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints('matches2clst.txt', 50, 1,'point', 'merge');
+C = cell2mat(clustersXY);
+
+figure; hold on;
 showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
 
 
+ 
+
+xp = 0;
+yp = -size(I1,2);
+
+  for i=1:length(clustersCentroids)
+        xunit = xp + clustersCentroids(i,1);
+        yunit = yp + clustersCentroids(i,2);
+      plot(xunit, -yunit, 'Ob', 'MarkerSize',50)
+  end
 
 
-title('Point matches after outliers were removed');
-legend('matched points 1','matched points 2');
+%title('Point matches after outliers were removed');
+%legend('matched points 1','matched points 2');
