@@ -31,27 +31,30 @@ classdef pictures
                     obj.pic{1,i}.picture = imhistmatch(obj.pic{1,i}.picture,obj.pic{1,i-1}.picture);
                 end
                 bw = obj.preprocessing(obj.pic{1,i}.picture);
-                
+%                 obj.pic{1,i}.preprocessed = bw;
                 %% Feature Detection
                 if(obj.app.Switch.Value=="SURF")
                     pts = detectSURFFeatures(bw);
                     [obj.pic{1,i}.SURF.features,obj.pic{1,i}.SURF.validPts] = extractFeatures(bw,pts);
                 elseif(obj.app.Switch.Value=="SIFT")
-                    peak_thresh = obj.app.PeakThresholdEditField.Value; % increase to limit; default is 0
-                    edge_thresh = obj.app.EdgeThresholdEditField.Value; % decrease to limit; default is 10
-                    [f1,d1] = vl_sift(single(bw),'PeakThresh', peak_thresh,'edgethresh', edge_thresh );
-                    obj.pic{1,i}.SIFT.features = f1;
-                    obj.pic{1,i}.SIFT.d = d1;
+%                     peak_thresh = obj.app.PeakThresholdEditField.Value; % increase to limit; default is 0
+%                     edge_thresh = obj.app.EdgeThresholdEditField.Value; % decrease to limit; default is 10
+%                     [f1,d1] = vl_sift(single(bw),'PeakThresh', peak_thresh,'edgethresh', edge_thresh );
+%                     obj.pic{1,i}.SIFT.features = f1;
+%                     obj.pic{1,i}.SIFT.d = d1;
+                    obj.pic{1,i}.SIFT.features = detectORBFeatures(bw);
+                    obj.app.Switch.Value="SURF";
                 end
                 progress.Value = i/length(obj.pic);
             end
-            copytform=[];
+%             copytform=[];
             progress.Message = 'Matching Features, Scaling and Rotating Pictures';
             progress.Value = 0;
+            tform=cell(1,length(obj.pic));
             for i=1:length(obj.pic)
                 if(obj.app.Switch.Value=="SURF")
                     if(i~=length(obj.pic))
-                        index_pairs = matchFeatures(obj.pic{1,i}.SURF.features,obj.pic{1,i+1}.SURF.features,'MatchThreshold',50);
+                        index_pairs = matchFeatures(obj.pic{1,i}.SURF.features,obj.pic{1,i+1}.SURF.features);
                         obj.pic{1,i}.SURF.matchedPts{1,1} = obj.pic{1,i}.SURF.validPts(index_pairs(:,1));
                         obj.pic{1,i}.SURF.matchedPts{1,2} = obj.pic{1,i+1}.SURF.validPts(index_pairs(:,2));
                     else
@@ -60,29 +63,97 @@ classdef pictures
                         obj.pic{1,i}.SURF.matchedPts{1,2} = obj.pic{1,1}.SURF.validPts(index_pairs(:,2));
                     end
                     %%
-%                     if(i==1)
-% 
-%                     else
-%                         showMatchedFeatures(obj.pic{1,i}.picture,obj.pic{1,i+1}.picture,obj.pic{1,i}.SURF.matchedPts{1,1},obj.pic{1,i}.SURF.matchedPts{1,2})
+                    [tform{1,i},inlierIdx] = estimateGeometricTransform2D(obj.pic{1,i}.SURF.matchedPts{1,2},obj.pic{1,i}.SURF.matchedPts{1,1},'similarity');%'similarity');projective
+%                     tform{1,i}=projective2d(tform{1,i}.T);
+%                     if(i>1 && isa(tform{1,i-1},'projective2d'))
+%                         tform{1,i}=projective2d(tform{1,i}.T);
 %                     end
-                    %%
-                    [tform,inlierIdx] = estimateGeometricTransform2D(obj.pic{1,i}.SURF.matchedPts{1,2},obj.pic{1,i}.SURF.matchedPts{1,1},'similarity');
                     obj.pic{1,i}.SURF.filteredmatchedPts{1,1} = obj.pic{1,i}.SURF.matchedPts{1,1}(inlierIdx,:);
                     obj.pic{1,i}.SURF.filteredmatchedPts{1,2} = obj.pic{1,i}.SURF.matchedPts{1,2}(inlierIdx,:);
-                    if(~isempty(copytform))
-                       tform.T=tform.T*copytform.T; 
+                    if(length(find(inlierIdx==1))<4)
+                        j=0;maxD=1.5;
+                        while(length(find(inlierIdx==1))<4)
+                            if(i~=length(obj.pic))
+                                index_pairs = matchFeatures(obj.pic{1,i-j}.SURF.features,obj.pic{1,i+1}.SURF.features);
+                                copy_matchedPts{1,1} = obj.pic{1,i-j}.SURF.validPts(index_pairs(:,1));
+                                copy_matchedPts{1,2} = obj.pic{1,i+1}.SURF.validPts(index_pairs(:,2));
+                            else
+                                index_pairs = matchFeatures(obj.pic{1,i-j}.SURF.features,obj.pic{1,1}.SURF.features);
+                                copy_matchedPts{1,1} = obj.pic{1,i-j}.SURF.validPts(index_pairs(:,1));
+                                copy_matchedPts{1,2} = obj.pic{1,1}.SURF.validPts(index_pairs(:,2));
+                            end
+                            [tform{1,i},inlierIdx] = estimateGeometricTransform2D(copy_matchedPts{1,2},copy_matchedPts{1,1},'similarity','MaxDistance',maxD);
+                            copy_matchedPts{1,1} = copy_matchedPts{1,1}(inlierIdx,:);
+                            copy_matchedPts{1,2} = copy_matchedPts{1,2}(inlierIdx,:);
+                            j=j+1;
+                            if(j==i)
+                                j=0;
+                                maxD=maxD+0.5;
+                            end
+                        end
+                        good_picture=i-j+1;
+                    else
+                        good_picture=i;
+                        
                     end
-                    %%
-%                     figure;
-%                     if(i==1)
-%                         
-%                     else
-%                         showMatchedFeatures(obj.pic{1,i}.picture,obj.pic{1,i+1}.picture,obj.pic{1,i}.SURF.filteredmatchedPts{1,1},obj.pic{1,i}.SURF.filteredmatchedPts{1,2})
+                    if(i~=1)
+                        if(isa(tform{1,good_picture-1},'projective2d'))
+                            transformed=affine2d([tform{1,good_picture-1}.T(1,1:2),single(0);tform{1,good_picture-1}.T(2,1:2),single(0);tform{1,good_picture-1}.T(3,1:2),single(1)]);
+                            tform{1,i}.T=tform{1,good_picture}.T*transformed.T;
+                        else
+                            tform{1,i}.T=tform{1,i}.T*tform{1,good_picture-1}.T;
+                        end
+
+                    end
+%                     tform{1,i}.T=tform{1,i}.T*tform{1,good_picture}.T;
+%                     if(i~=1)
+%                         tform{1,i}.T=tform{1,i}.T*tform{1,good_picture-1}.T;
+%                     end
+%                     if(~isempty(copytform))
+%                        tform.T=tform.T*copytform.T; 
 %                     end
                     %%
                     if(i~=length(obj.pic))
                         outputView = imref2d(size(obj.pic{1,i}.picture));
-                        obj.pic{1,i+1}.SURF.rotated_picture = imwarp(obj.pic{1,i+1}.picture,tform,'OutputView',outputView);
+                        obj.pic{1,i+1}.SURF.rotated_picture = imwarp(obj.pic{1,i+1}.picture,tform{1,i},'OutputView',outputView);
+%                         figure;imshow(obj.pic{1,i+1}.SURF.rotated_picture);
+%                         for k=1:i
+%                             if(i==1)
+%                                 outputView = imref2d(size(obj.pic{1,i}.picture));
+%                                 obj.pic{1,i+1}.SURF.rotated_picture = imwarp(obj.pic{1,i+1}.picture,tform{1,k},'OutputView',outputView);
+%                             elseif(k==1)
+%                                 copytform=tform{1,i-k+1};
+%                                 copytform.T(3,1)=single(0);copytform.T(3,2)=single(0);
+%                                 obj.pic{1,i+1}.SURF.rotated_picture = imwarp(obj.pic{1,i+1}.picture,copytform);
+%                             elseif(k==i)
+%                                 XLimit=tform{1,i-k+2}.T(3,:)*tform{1,i-k+1}.T(:,1);
+%                                 YLimit=tform{1,i-k+2}.T(3,:)*tform{1,i-k+1}.T(:,2);
+%                                 copytform=tform{1,i-k+1};
+%                                 
+%                                 copytform.T(3,1)=single(0);copytform.T(3,2)=single(0);
+%                                 obj.pic{1,i+1}.SURF.rotated_picture = imwarp(obj.pic{1,i+1}.SURF.rotated_picture,copytform);%,'OutputView',outputView);
+%                                 outputView = imref2d(size(obj.pic{1,i}.SURF.rotated_picture));
+%                                 copyt=affine2d([1 0 0;0 1 0;XLimit YLimit 1]);
+%                                 obj.pic{1,i+1}.SURF.rotated_picture = imwarp(obj.pic{1,i+1}.SURF.rotated_picture,copyt);%,'OutputView',outputView);
+% %                                 obj.pic{1,i+1}.SURF.rotated_picture = imtranslate(obj.pic{1,i+1}.SURF.rotated_picture,[XLimit,YLimit]);%,'OutputView','full');
+% %                                 ref=obj.pic{1,i}.SURF.rotated_picture;
+% %                                 new=obj.pic{1,i+1}.SURF.rotated_picture;
+% %                                 obj.pic{1,i+1}.SURF.rotated_picture = new(round((size(new,1)-size(ref,1))/2):round(size(new,1)-((size(new,1)-size(ref,1))/2)),round((size(new,2)-size(ref,2))/2):round(size(new,2)-((size(new,2)-size(ref,2))/2)),:);
+%                             else
+%                                 outputView = imref2d(size(obj.pic{1,i}.SURF.rotated_picture));
+%                                 obj.pic{1,i+1}.SURF.rotated_picture = imwarp(obj.pic{1,i+1}.SURF.rotated_picture,tform{1,i-k+1});%,'OutputView',outputView);
+% %                                 XLimit=tform{1,i-k+2}.T(3,:)*tform{1,i-k+1}.T(:,1);
+% %                                 YLimit=tform{1,i-k+2}.T(3,:)*tform{1,i-k+1}.T(:,2);
+%                             end
+%                         end
+%                         if(~exist('copy_matchedPts','Var'))
+%                             moving = imhistmatch(obj.pic{1,i}.preprocessed,obj.pic{1,i+1}.preprocessed);
+%                         else
+%                             moving = imhistmatch(obj.pic{1,good_picture}.preprocessed,obj.pic{1,i+1}.preprocessed);
+%                         end
+%                         [~,movingReg] = imregdemons(moving,obj.pic{1,i+1}.preprocessed,[500,400,200],'AccumulatedFieldSmoothing',1.3);
+%                         D=movingReg;
+%                         obj.pic{1,i+1}.SURF.rotated_picture = imwarp(obj.pic{1,i+1}.preprocessed,D);
                     end
                     %% Background first try
 %                     background_tform=tform;
@@ -99,7 +170,7 @@ classdef pictures
 %                     obj.pic{1,i+1}.SURF.rotated_picture=rot_pic;
 %                     figure;imshow(obj.pic{1,i+1}.SURF.rotated_picture);
                     %%
-                    copytform=tform;
+%                     copytform=tform;
                 elseif(obj.app.Switch.Value=="SIFT")
                     thresh = obj.app.ThresholdMatchingEditField.Value; % default = 1.5; increase to limit matches
                     if(i~=length(obj.pic))
@@ -124,7 +195,6 @@ classdef pictures
                     obj.pic{1,i}.SIFT.filteredmatchedPts{1,2} = obj.pic{1,i}.SIFT.matchedPts{1,2}(inlierIdx,:);
                     if(~isempty(copytform))
                        tform.T=copytform.T*tform.T; 
-                       obj.pic{1,i}.SIFT.Tmat = tform.T;
                     end
                     if(i~=length(obj.pic))
                         outputView = imref2d(size(obj.pic{1,i}.picture));
@@ -132,11 +202,11 @@ classdef pictures
 %                         outputView.YWorldLimits = outputView.YWorldLimits-mean(outputView.YWorldLimits);
                         obj.pic{1,i+1}.SIFT.rotated_picture = imwarp(obj.pic{1,i+1}.picture,tform,'OutputView',outputView);
                     end
-                    copytform=tform;    
+                    copytform=tform;
                 end
+                
                 progress.Value = i/length(obj.pic);
             end
-            % obj = acontario(obj);  % maxi andi zugefugt
         end
         
         function date = determine_date(obj,name)
@@ -193,6 +263,8 @@ classdef pictures
         end
         
         function preprocessed = preprocessing(~,picture)
+%             %% Resize
+%             picture = imresize(picture,0.75);
             %% Color Histogram Equalization
             hsi = rgb2hsv(picture);
             histo_equal = histeq(hsi(:,:,3));
@@ -204,9 +276,10 @@ classdef pictures
             %% Flat-field correction
             ffc = imflatfield(sharp,30);
             %% RGB to Gray
-            preprocessed = rgb2gray(ffc);
+            bw = rgb2gray(ffc);
             %% Adapt Histogram Equation
-%             preprocessed = adapthisteq(bw);
+            bw = imadjust(bw);
+            preprocessed = adapthisteq(bw);
         end
     end
 end
