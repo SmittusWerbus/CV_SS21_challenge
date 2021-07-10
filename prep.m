@@ -3,8 +3,8 @@
 
 function [I1, I2] = prep 
 
-I1_raw = rgb2gray(imread(fullfile('Images','Dubai','1990_12.jpg')));
-I2_raw = rgb2gray(imread(fullfile('Images','Dubai','2003_12.jpg')));
+I1_raw = rgb2gray(imread(fullfile('Images','Wiesn','2018_04.jpg')));
+I2_raw = rgb2gray(imread(fullfile('Images','Wiesn','2019_09.jpg')));
 
 I1 = adapthisteq(I1_raw,'NumTiles',[10 10]);
 I2 = adapthisteq(I2_raw,'NumTiles',[10 10]);

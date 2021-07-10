@@ -27,7 +27,7 @@
 % Inliers bezeichnet die matched keypoints nach dem binning 
 
 %[f_LMedS, inliers] = ransac(matchedPoints_1, matchedPoints_2);
-[Inliers_1, Inliers_2] = hough_binning(I1, I2, f1match, f2match, allX, allY, allScales, allAngs, matches);
+[Inliers_1, Inliers_2, I1Rect, I2Rect] = hough_binning(I1, I2, f1match, f2match, d1match, d2match, allX, allY, allScales, allAngs, matches);
     
 
 % Plotten von bereinigten matches
