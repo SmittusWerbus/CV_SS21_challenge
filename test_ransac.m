@@ -87,21 +87,21 @@ plot(points_2);
  %   inlier_points2,size(I2));
 
 
-figure; 
+%figure; 
 %tiledlayout(2,1)                           % Creates subplots  
 
 %ax1 = nexttile;                            % moves over to the next subplot
 
-hold on;
+%hold on;
 
 
 
-showMatchedFeatures(I1,I2,matchedPoints_1,matchedPoints_2, 'montage');
-title('matched w/o ransac');
-legend('matched points 1','matched points 2');
+%showMatchedFeatures(I1,I2,matchedPoints_1,matchedPoints_2, 'montage');
+%title('matched w/o ransac');
+%legend('matched points 1','matched points 2');
 
 %ax2 = nexttile;
-figure;
+%figure;
 %showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'montage','PlotOptions',{'ro','go','y--'});
 
 %[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints(inputfile,maxdist,minClusterSize,method,mergeflag);
@@ -139,10 +139,10 @@ y0 = size(I2,1);
       plot(xunit, -yunit, 'Ob', 'MarkerSize',50)
   end
 
+  %hold off;
  % Interpolation zwischen den Datenpunkten
  
 
- figure 
  %F = TriScatteredInterp(centroid_bins(:,1), centroid_bins(:,2), centroid_bins(:,3));
 %F = scatteredInterpolant(centroid_bins(:,[1 2]), centroid_bins(:,3), 'linear', 'linear');
  
@@ -163,15 +163,26 @@ figure; hold on;
 for i=1:length(centroid_bins)
     plot3(centroid_bins(i,2), centroid_bins(i,1) , centroid_bins(i,3),'o')
 end
+hold off
+
+
 
 %figure
 %meshCanopy(I2,qz,@spring)
-figure
-contourf(qx, qy, qz,'LineColor','none', 'ShowText', 'on')
-legend('Sample Points','Interpolated Surface','Location','NorthWest')
- 
+figure; 
 
-figure;
+
+contourf(qx, qy, qz,'LineColor','none', 'ShowText', 'on')
+hold on;
+
+imshow(I2);
+title('heatmap')
+
+hold off
+alpha(.1) 
+legend('Sample Points','Interpolated Surface','Location','NorthWest')
+
+
 
 %DataDensityPlot(size(I2,1),size(I2,1) , centroid_bins(:,3) );
 
