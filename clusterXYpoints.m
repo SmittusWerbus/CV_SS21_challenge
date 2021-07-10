@@ -222,32 +222,32 @@ for k=1:clusterCount
 end
 
 
-% Plot the clusters
-cc=hsv(clusterCount); % create different colour codes for every cluster
-cc = cc(randperm(clusterCount),:); % randomise the colour codes so that neighbouring clusters don't have too similarly looking colours
-h1 = figure('Name','Clusters');
-hold on;
-scatter(XY(:,1),XY(:,2),20,'filled','o','CData',[.8,.8,.8]); % plot the original points in light grey
-for k=1:clusterCount
-    plot(clustersXY{k,1}(:,1),clustersXY{k,1}(:,2),'o','Color',cc(k,:),'MarkerFaceColor',cc(k,:));
-end
-axis equal;
-
-
-% Plot the centroid of each cluster
-h2 = figure('Name','Centroids of clusters');
-hold on;
-scatter(XY(:,1),XY(:,2),20,'filled','o','CData',[.8,.8,.8]); % plot the original points in light grey
-scatter(clustersCentroids(:,1),clustersCentroids(:,2),40,'filled','o','CData',cc); % plot the centroids
-axis equal;
-
-
-% Plot the geometric median of each cluster
-h3 = figure('Name','Geometrical medians of clusters');
-hold on;
-scatter(XY(:,1),XY(:,2),20,'filled','o','CData',[.8,.8,.8]); % plot the original points in light grey
-scatter(clustersGeoMedians(:,1),clustersGeoMedians(:,2),40,'filled','o','CData',cc); % plot the geometrical medians
-axis equal;
+% % Plot the clusters
+% cc=hsv(clusterCount); % create different colour codes for every cluster
+% cc = cc(randperm(clusterCount),:); % randomise the colour codes so that neighbouring clusters don't have too similarly looking colours
+% h1 = figure('Name','Clusters');
+% hold on;
+% scatter(XY(:,1),XY(:,2),20,'filled','o','CData',[.8,.8,.8]); % plot the original points in light grey
+% for k=1:clusterCount
+%     plot(clustersXY{k,1}(:,1),clustersXY{k,1}(:,2),'o','Color',cc(k,:),'MarkerFaceColor',cc(k,:));
+% end
+% axis equal;
+% 
+% 
+% % Plot the centroid of each cluster
+% h2 = figure('Name','Centroids of clusters');
+% hold on;
+% scatter(XY(:,1),XY(:,2),20,'filled','o','CData',[.8,.8,.8]); % plot the original points in light grey
+% scatter(clustersCentroids(:,1),clustersCentroids(:,2),40,'filled','o','CData',cc); % plot the centroids
+% axis equal;
+% 
+% 
+% % Plot the geometric median of each cluster
+% h3 = figure('Name','Geometrical medians of clusters');
+% hold on;
+% scatter(XY(:,1),XY(:,2),20,'filled','o','CData',[.8,.8,.8]); % plot the original points in light grey
+% scatter(clustersGeoMedians(:,1),clustersGeoMedians(:,2),40,'filled','o','CData',cc); % plot the geometrical medians
+% axis equal;
 
 
 % Write Centroids to file

@@ -44,19 +44,19 @@ points_2_res = sift_points_2;
 %points_2_res = points_2%.selectStrongest(50000);
 
 
-figure
-
-tiledlayout(1,2)
-
-ax1 = nexttile;
-
-imshow(I1_raw);
-hold on;
-plot(points_1_res);
-
-ax2 = nexttile;
-imshow(I1);
-
+% figure
+% 
+% tiledlayout(1,2)
+% 
+% ax1 = nexttile;
+% 
+% imshow(I1_raw);
+% hold on;
+% plot(points_1_res);
+% 
+% ax2 = nexttile;
+% imshow(I1);
+% 
 
 
 
@@ -101,28 +101,55 @@ figure;
 %[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints(inputfile,maxdist,minClusterSize,method,mergeflag);
 %showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
 
-writematrix(matchedPoints_2.Location, 'matches2clst.txt');
 
- 
+% Hier muss noch von matched points zu changed points geändert werden, reicht aber
+% zum rumprobieren
+
+writematrix(matchedPoints_2.Location, 'matches2clst.txt'); 
 
 [clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints('matches2clst.txt', 50, 1,'point', 'merge');
-C = cell2mat(clustersXY);
+
+allLengths = cellfun(@length, clustersXY);
+% Now find the longest vector between element 15 and 35 (for example)
+maxLength = max(allLengths);
+
+centroid_bins = [clustersCentroids, allLengths];
+
+
+clusters_mat = cell2mat(clustersXY);
 
 figure; hold on;
-showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
+
+H = showMatchedFeatures(I1, I2, matchedPoints_1(inliers,:),matchedPoints_2(inliers,:),'blend','PlotOptions',{'ro','go','y--'});
+
+x0 = 0;
+y0 = size(I2,1);
 
 
- 
-
-xp = 0;
-yp = -size(I1,2);
 
   for i=1:length(clustersCentroids)
-        xunit = xp + clustersCentroids(i,1);
-        yunit = yp + clustersCentroids(i,2);
+        xunit = x0 + clustersCentroids(i,1);
+        yunit =  -(clustersCentroids(i,2)) ;
       plot(xunit, -yunit, 'Ob', 'MarkerSize',50)
   end
 
+ % Interpolation zwischen den Datenpunkten
+ 
 
+ figure 
+ %F = TriScatteredInterp(centroid_bins(:,1), centroid_bins(:,2), centroid_bins(:,3));
+F = scatteredInterpolant(centroid_bins(:,[1 2]), centroid_bins(:,3));
+ 
+ 
+%[qx,qy] = meshgrid(double(I2(:,2)), double(I2(:,1)));
+[qx,qy] = meshgrid(centroid_bins(:,1), centroid_bins(:,2));
+qz = F(qx,qy);
+ 
+mesh(qx,qy,qz)
+%hold on
+plot3(centroid_bins(:,2), centroid_bins(:,1), qz,'o')
+ 
+ 
+ 
 %title('Point matches after outliers were removed');
 %legend('matched points 1','matched points 2');
