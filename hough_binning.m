@@ -1,4 +1,4 @@
-function [Inliers_1, Inliers_2] = hough_binning(I1, I2, f1match, f2match, allX, allY, allScales, allAngs, matches)
+function [Inliers_1, Inliers_2, I1Rect, I2Rect] = hough_binning(I1, I2, f1match, f2match, d1match, d2match, allX, allY, allScales, allAngs, matches)
 %RANSAC Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -97,9 +97,29 @@ end
 % transpose of Inliers to account for the syntax of proporetary matlab
 % functions
 
-figure
-showMatchedFeatures(I1,I2, transpose(Inliers_1), transpose(Inliers_2), 'Method', 'blend');
-title('showing matches via prop matlab');
+[f_LMedS, inliers] = estimateFundamentalMatrix(transpose(Inliers_1), transpose(Inliers_2),'Method','RANSAC','NumTrials', 2000, 'InlierPercentage', 30, 'DistanceType', 'Algebraic', 'DistanceThreshold', 0.01);
+[t1, t2] = estimateUncalibratedRectification(f_LMedS,transpose(Inliers_1),...
+    transpose(Inliers_2),size(I2));
+
+[I1Rect,I2Rect] = rectifyStereoImages(I1,I2,t1,t2);
+
+
+figure;
+imshow(I1Rect);
+imshow(I2Rect);
+
+%[t1, t2] = estimateUncalibratedRectification(f_LMedS,inlier_points1,...
+%    inlier_points2,size(I2));
+
+%[I1Rect,I2Rect] = rectifyStereoImages(I1,I2,t1,t2);
+%figure;
+%imshow(I1Rect);
+
+%figure;
+%imshow(I2Rect)
+%figure
+%showMatchedFeatures(I1,I2, transpose(Inliers_1), transpose(Inliers_2), 'Method', 'blend');
+%title('showing matches via prop matlab');
 
 % Clustering of inliers via k-means, wieder raus
 

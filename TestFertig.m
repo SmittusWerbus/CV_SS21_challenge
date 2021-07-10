@@ -1,6 +1,6 @@
 %http://cs-courses.mines.edu/csci507/schedule/26/SIFTBasedObjectRecog.pdf
 
-I1 = imread(fullfile('images','Brazilian Rainforest','1995_12.jpg'));
+I1 = imread(fullfile('images','Wiesn','2018_04.jpg'));
 %I1 = imresize(I1, 0.25);
 %imshow(I1)
 %I1 = single(I1); % Convert to single precision floating point
@@ -21,7 +21,7 @@ KeyPoints_Pic1 = [f1(1,:);f1(2,:)];
 
 
 % Second image
-I2 = imread(fullfile('images','Brazilian Rainforest','2020_12.jpg'));
+I2 = imread(fullfile('images','Wiesn','2019_09.jpg'));
 I2_weida = I2;
 %I2 = imresize(I2, 0.25);
 % I2 = single(I2);
