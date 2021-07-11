@@ -24,6 +24,7 @@ classdef pictures
         end
         
         function obj = run_change_detection(obj,progress)
+            progress.Title = 'Please Wait (Step 1/6)';
             progress.Message = 'Detecting Features';
             progress.Value = 0;
             for i=1:length(obj.pic)
@@ -48,6 +49,7 @@ classdef pictures
                 progress.Value = i/length(obj.pic);
             end
 %             copytform=[];
+            progress.Title = 'Please Wait (Step 2/6)';
             progress.Message = 'Matching Features, Scaling and Rotating Pictures';
             progress.Value = 0;
             tform=cell(1,length(obj.pic));

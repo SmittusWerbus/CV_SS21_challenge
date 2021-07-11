@@ -1,4 +1,4 @@
-function meshCanopy(I,Mdata,Mmap,height)
+function Output = meshCanopy(I,Mdata,Mmap,height)
 %function meshCanopy: display a mesh above a grayscale image
 %SCd 11/18/2010
 %
@@ -83,18 +83,24 @@ else
 end
 
 %Plotting7
-figure;
-H(1) = slice(repmat(I,[1 1 2]),[],[],1); %slice() requires at least 2x2x2
-set(H(1),'EdgeColor','none') %required so image isn't just an edge
-hold on
-H(2) = mesh(ii,jj,double(Mdata));
-hold off
-
+% figure;
+% H(1) = slice(repmat(I,[1 1 2]),[],[],1); %slice() requires at least 2x2x2
+% set(H(1),'EdgeColor','none') %required so image isn't just an edge
+% hold on
+% H(2) = mesh(ii,jj,double(Mdata));
+% hold off
+Output{1,1}=[];
+Output{1,2}=ii;
+Output{1,3}=jj;
+Output{1,4}=Mdata;
 %Plot Properties
-axis vis3d
-axis ij
-axis tight
-colormap(Cmap)
-set(H(1),'CData',I);
-set(H(2),'CData',Midx);
-caxis([1 length(Cmap)])
+% axis vis3d
+% axis ij
+% axis tight
+% colormap(Cmap)
+% set(H(1),'CData',I);
+% set(H(2),'CData',Midx);
+% caxis([1 length(Cmap)])
+Output{1,5}=Cmap;
+Output{1,6}=I;
+Output{1,7}=Midx;
