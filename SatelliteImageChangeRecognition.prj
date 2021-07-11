@@ -1,9 +1,9 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
   <configuration build-checksum="2210033906" file="C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge\SatelliteImageChangeRecognition.prj" location="C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge" name="SatelliteImageChangeRecognition" preferred-package-location="C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge\SatelliteImageChangeRecognition\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
-    <param.appname>SatelliteImageChangeRecognitionG05</param.appname>
+    <param.appname>SatelliteImageChangeRecognitionG5</param.appname>
     <param.icon />
     <param.icons />
-    <param.version>0.2</param.version>
+    <param.version>1.0</param.version>
     <param.authnamewatermark>Gregor Höhne, Daniel Breucker, Maximilian Krähschütz, Ennio Colliccia, Andreas Steinberger</param.authnamewatermark>
     <param.email />
     <param.company />
@@ -11,7 +11,7 @@
     <param.description />
     <param.screenshot>${PROJECT_ROOT}\Team_Logo.png</param.screenshot>
     <param.guid />
-    <param.installpath.string>\SatelliteImageChangeRecognitionG05\</param.installpath.string>
+    <param.installpath.string>\SatelliteImageChangeRecognitionG5\</param.installpath.string>
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
     <param.logo>${PROJECT_ROOT}\Team_Logo.png</param.logo>
     <param.install.notes />
@@ -45,6 +45,7 @@
     <unset>
       <param.icon />
       <param.icons />
+      <param.version />
       <param.email />
       <param.company />
       <param.summary />
@@ -81,6 +82,7 @@
     <fileset.resources />
     <fileset.package />
     <fileset.depfun>
+      <file>C:\Users\Daniel\Desktop\vlfeat-0.9.21-bin\vlfeat-0.9.21\toolbox\mex\mexw64\vl_ubcmatch.mexw64</file>
       <file>${PROJECT_ROOT}\126477.png</file>
       <file>${PROJECT_ROOT}\arrows-left-slider-31125.png</file>
       <file>${PROJECT_ROOT}\arrows-right-slider-31125.png</file>
@@ -95,8 +97,8 @@
       <file>${PROJECT_ROOT}\Team_Logo.png</file>
     </fileset.depfun>
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\SatelliteImageChangeRecognition\for_testing" name="SatelliteImageChangeRecognitionG05.exe" optional="false">C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge\SatelliteImageChangeRecognition\for_testing\SatelliteImageChangeRecognitionG05.exe</file>
       <file location="${PROJECT_ROOT}\SatelliteImageChangeRecognition\for_testing" name="splash.png" optional="false">C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge\SatelliteImageChangeRecognition\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\SatelliteImageChangeRecognition\for_testing" name="SatelliteImageChangeRecognitionG5.exe" optional="false">C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge\SatelliteImageChangeRecognition\for_testing\SatelliteImageChangeRecognitionG5.exe</file>
       <file location="${PROJECT_ROOT}\SatelliteImageChangeRecognition\for_testing" name="readme.txt" optional="true">C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge\SatelliteImageChangeRecognition\for_testing\readme.txt</file>
     </build-deliverables>
     <workflow />
