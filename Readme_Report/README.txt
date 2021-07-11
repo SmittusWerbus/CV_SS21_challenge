@@ -21,3 +21,4 @@
 		       
 		       Die Canopy Darstellung stellt eine perspektivische Darstellung der Änderungshotspots (Berge des 3D Mesh) und der gleichgebliebenen Areale dar. 
 		       Die Gegenüberstellung der Heatmap vs. des Bildes ist das 2D Equivalent der Canopy Darstellung.  
+		       Bei beiden Plots wird der Bezug der Änderung vom aktuellen Bild zum vorherigen Bild hergestellt, dazu einfach durchklicken.
