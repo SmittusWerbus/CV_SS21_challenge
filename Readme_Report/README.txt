@@ -18,7 +18,9 @@
 		       die eine qualitative Darstellung von der Änderung pro Fläche ermöglicht. Dabei handelt es sich immer um eine Darstellung der relativen Änderungsdichte.
 		       Die Funktion ist jedoch sehr rechen- und zeitintensiv (min 16 Gb RAM werden empfohlen) abhängig von detektieren Veränderung und der Anzahl der untersuchten Satellitenaufnahmen.
 		       Die Darstellung hat durch die vorgenommene Interpolation und die laufzeitverbessernde dezimierung des Änderungsvektor den Nachteil dass diese unter Umständen sehr fragil sein kann.
+		       Daher sind die Plots mit vorsicht zu genießen aber wenn sie funktionieren illustrieren sie die Änderung sehr anschaulich.
 		       
 		       Die Canopy Darstellung stellt eine perspektivische Darstellung der Änderungshotspots (Berge des 3D Mesh) und der gleichgebliebenen Areale dar. 
 		       Die Gegenüberstellung der Heatmap vs. des Bildes ist das 2D Equivalent der Canopy Darstellung.  
 		       Bei beiden Plots wird der Bezug der Änderung vom aktuellen Bild zum vorherigen Bild hergestellt, dazu einfach durchklicken.
+			
