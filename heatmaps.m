@@ -1,4 +1,4 @@
-function [figHeat, figCanopy] = heatmaps(image_colour, changed_points_loc, cluster_radius)
+function [figHeat, figCanopy, centroid_bins_max] = heatmaps(image_colour, changed_points_loc, cluster_radius)
 
 image_gray = rgb2gray(image_colour);
 
@@ -21,6 +21,8 @@ qz = F(qx,qy);
 figHeat={qx,qy,qz};
 figCanopy={image_gray,qz};
 
+
+centroid_bins_max = max(centroid_bins(:,3));
 % figure;
 % tiledlayout(1,2);
 % title('heatmap')

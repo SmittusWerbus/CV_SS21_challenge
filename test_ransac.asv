@@ -228,6 +228,6 @@ set(gca,'YTick',[])
 chb = colorbar('TickLabels',{'low density of change','high density of change'});
 chb.Label.String = 'relative density of change';
 set(chb,'YTick',[])
-set(chb, 'ylim', [255 500])
+set(chb, 'ylim', [100 :])
 %colormap(cool)
 
