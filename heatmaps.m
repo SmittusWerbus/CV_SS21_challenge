@@ -6,7 +6,7 @@ image_gray = rgb2gray(image_colour);
 % qualitativer relativer change wird trotzdem bewahrt
 
 writematrix(downsample(changed_points_loc, mod(size(changed_points_loc,1),100)), 'points2clst.txt','WriteMode','overwrite'); 
-[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints('points2clst.txt', cluster_radius, 1,'centroids', 'merge');
+[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints('points2clst.txt', cluster_radius, 1,'centroids');
 
 
 allLengths = cellfun(@length, clustersXY);
