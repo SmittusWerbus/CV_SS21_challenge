@@ -10,7 +10,7 @@ writematrix(changed_points_loc, join(['points2clst',num2str(index),'.txt'],''),'
 allLengths = cellfun(@length, clustersXY);
 centroid_bins = [clustersCentroids, allLengths];
 
-
+% Interpoliert zwischen den ungleichmäo
 
 F = scatteredInterpolant(centroid_bins(:,1),centroid_bins(:,2), centroid_bins(:,3), 'linear');
 [qx,qy] = meshgrid(linspace(0,size(image_gray,2), size(image_gray,2)), linspace(0,size(image_gray,1), size(image_gray,1)));
