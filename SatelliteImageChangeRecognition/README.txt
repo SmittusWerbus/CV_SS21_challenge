@@ -14,4 +14,4 @@
 4.1 "Feature Detection": Keypoints und Matched Keypoints pro Bild anzeigen lassen (mit dem Schalter zwischen den zwei Funktionen umschalten)
 4.2 Prepared Pictures: Rotierte und überlappende Bilder anzeigen lassen (mittels Schalter umschalten)
 4.3 Change Detection: Überlappende Änderungen und Änderungen einzelner Bilder anzeigen lassen (mittels Schalter umschalten), Histogramm zeigt die Verteilung der Änderungen über alle Bilder
-4.4 Density of Change: 
+4.4 Density of Change: Änderungsdichte
