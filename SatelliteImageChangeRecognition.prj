@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration file="C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge\SatelliteImageChangeRecognition.prj" location="C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge" name="SatelliteImageChangeRecognition" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration build-checksum="2210033906" file="C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge\SatelliteImageChangeRecognition.prj" location="C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge" name="SatelliteImageChangeRecognition" preferred-package-location="C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge\SatelliteImageChangeRecognition\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>SatelliteImageChangeRecognition</param.appname>
     <param.icon />
     <param.icons />
@@ -81,6 +81,7 @@
     <fileset.resources />
     <fileset.package />
     <fileset.depfun>
+      <file>C:\Users\Daniel\Desktop\vlfeat-0.9.21-bin\vlfeat-0.9.21\toolbox\mex\mexw64\vl_ubcmatch.mexw64</file>
       <file>${PROJECT_ROOT}\126477.png</file>
       <file>${PROJECT_ROOT}\arrows-left-slider-31125.png</file>
       <file>${PROJECT_ROOT}\arrows-right-slider-31125.png</file>
