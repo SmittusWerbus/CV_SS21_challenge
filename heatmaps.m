@@ -1,16 +1,18 @@
-function [figHeat, figCanopy] = heatmaps(image_colour, changed_points_loc, cluster_radius,index)
-%HEATMAPS Summary of this function goes here
-%   Detailed explanation goes here
+function [figHeat, figCanopy] = heatmaps(image_colour, changed_points_loc, cluster_radius)
 
 image_gray = rgb2gray(image_colour);
-writematrix(changed_points_loc, 'points2clst.txt','WriteMode','overwrite'); 
-[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints('points2clst.txt'), cluster_radius, 1,'centroid', 'merge');
+
+% Reduziert die Zeit zur Berechnung durch downsampling des input vektors, 
+% qualitativer relativer change wird trotzdem bewahrt
+
+writematrix(downsample(changed_points_loc, mod(size(changed_points_loc,1),100)), 'points2clst.txt','WriteMode','overwrite'); 
+[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints('points2clst.txt', cluster_radius, 1,'centroids');
 
 
 allLengths = cellfun(@length, clustersXY);
 centroid_bins = [clustersCentroids, allLengths];
 
-% Interpoliert zwischen den ungleichmäo
+% Interpoliert zwischen den ungleichmäßig verteilten bins
 
 F = scatteredInterpolant(centroid_bins(:,1),centroid_bins(:,2), centroid_bins(:,3), 'linear');
 [qx,qy] = meshgrid(linspace(0,size(image_gray,2), size(image_gray,2)), linspace(0,size(image_gray,1), size(image_gray,1)));
