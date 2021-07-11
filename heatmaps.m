@@ -3,8 +3,8 @@ function [figHeat, figCanopy] = heatmaps(image_colour, changed_points_loc, clust
 %   Detailed explanation goes here
 
 image_gray = rgb2gray(image_colour);
-writematrix(changed_points_loc, join(['points2clst',num2str(index),'.txt'],''),'WriteMode','overwrite'); 
-[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints(join(['points2clst',num2str(index),'.txt'],''), cluster_radius, 1,'point', 'merge');
+writematrix(changed_points_loc, 'points2clst.txt','WriteMode','overwrite'); 
+[clustersCentroids,clustersGeoMedians,clustersXY] = clusterXYpoints('points2clst.txt'), cluster_radius, 1,'centroid', 'merge');
 
 
 allLengths = cellfun(@length, clustersXY);
