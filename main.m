@@ -36,3 +36,6 @@
 
 
 % Der Rest?
+
+
+[figHeat, figCanopy] = heatmaps(I2,I2_colour, points_2.Location, 50);

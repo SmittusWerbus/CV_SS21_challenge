@@ -200,7 +200,7 @@ imgh.AlphaData = .2
 
 
 
-figure
+figHeat = figure;
 title('heatmap')
 tiledlayout(1,2);
 
@@ -221,6 +221,6 @@ linkaxes([ax1 ax2],'xy')
 
 
 %ax3([2 2]) = nexttile;
-m = meshCanopy(I2,qz,@cool, 100);
+meshCanopy(I2,qz,@cool, 100);
 
 

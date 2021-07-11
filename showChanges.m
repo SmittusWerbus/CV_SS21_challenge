@@ -42,12 +42,14 @@ saved_color_index=color_index;
 color_index=1;
 pic{1,1}.SURF.time_change_pic = pic{1,1}.picture;
 Legend{1}=datestr(pic{1,1}.date);
+pic{1,1}.Histo.Data=[];
 for i=2:length(pic)
     Legend{i}=datestr(pic{1,i}.date);
     pic{1,i}.SURF.time_change_pic = insertMarker(pic{1,i-1}.SURF.time_change_pic, pic{1,i}.SURF.only_change, 'color', color{saved_color_index-color_index});
     pic{1,i}.SURF.change_color = color{i-1};
 %     imshow(pic{1,i}.SURF.time_change_pic);
     color_index=color_index+1;
+    pic{1,i}.Histo.Data=[pic{1,i-1}.Histo.Data,(i-1)*ones(1,length(pic{1,i}.SURF.changed_points))];
 end
 
 end
