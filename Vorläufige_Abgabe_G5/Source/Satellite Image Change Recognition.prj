@@ -1,0 +1,81 @@
+<deployment-project plugin="plugin.apptool" plugin-version="1.0">
+  <configuration build-checksum="2872686015" file="C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge\Satellite Image Change Recognition.prj" location="C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge" name="Satellite Image Change Recognition" target="target.mlapps" target-name="Package App">
+    <param.appname>Satellite Image Change Recognition</param.appname>
+    <param.authnamewatermark />
+    <param.email />
+    <param.company />
+    <param.icon />
+    <param.icons />
+    <param.summary />
+    <param.description />
+    <param.screenshot>C:\Users\Daniel\AppData\Local\Temp\tp37ffc8a6_1625_4c7c_8259_d0180b8f4ef0.png</param.screenshot>
+    <param.version>1.0</param.version>
+    <param.products.name />
+    <param.products.id />
+    <param.products.version />
+    <param.platforms>
+      <item>win64</item>
+    </param.platforms>
+    <param.output>${PROJECT_ROOT}</param.output>
+    <param.guid>c56b585f-56c0-47b1-a6ca-e930d24c4f47</param.guid>
+    <unset>
+      <param.authnamewatermark />
+      <param.email />
+      <param.company />
+      <param.icon />
+      <param.icons />
+      <param.summary />
+      <param.description />
+      <param.version />
+      <param.products.name />
+      <param.products.id />
+      <param.products.version />
+      <param.output />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}\Satellite_image_change_recognition.mlapp</file>
+    </fileset.main>
+    <fileset.depfun>
+      <file>C:\Users\Daniel\Desktop\vlfeat-0.9.21-bin\vlfeat-0.9.21\toolbox\mex\mexw64\vl_ubcmatch.mexw64</file>
+      <file>${PROJECT_ROOT}\126477.png</file>
+      <file>${PROJECT_ROOT}\arrows-left-slider-31125.png</file>
+      <file>${PROJECT_ROOT}\arrows-right-slider-31125.png</file>
+      <file>${PROJECT_ROOT}\pictures.m</file>
+      <file>${PROJECT_ROOT}\png-transparent-rubbish-bins-waste-paper-baskets-computer-icons-r.png</file>
+      <file>${PROJECT_ROOT}\showChanges.m</file>
+      <file>${PROJECT_ROOT}\Team_Logo.png</file>
+    </fileset.depfun>
+    <fileset.resources />
+    <fileset.package />
+    <build-deliverables>
+      <file location="C:\Users\Daniel\Documents\GitHub" name="CV_SS21_challenge" optional="false">C:\Users\Daniel\Documents\GitHub\CV_SS21_challenge</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2021a</root>
+      <toolboxes>
+        <toolbox name="neuralnetwork" />
+      </toolboxes>
+      <toolbox>
+        <neuralnetwork>
+          <enabled>true</enabled>
+        </neuralnetwork>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.0</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
